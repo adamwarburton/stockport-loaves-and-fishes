@@ -153,14 +153,14 @@ the post form (the social text box and the channel ticks).
 - Posts without a photo are shared to Facebook only — Instagram requires a
   photo, so the town crier politely skips it and says so in its notes.
 - Shares go out within the hour after a post goes live, not instantly.
-- **Status right now:** the town crier is built in a later phase and switched
-  off until it's been tested end-to-end. Until then, posts publish to the
-  website only, whatever the ticks say. This paragraph will be updated when
-  it goes live.
+- **Status right now:** the town crier is built and rehearsing (a safety
+  switch called DRY_RUN is on, so it describes what it _would_ post without
+  posting). Until the switch is flipped after end-to-end testing, posts
+  publish to the website only, whatever the ticks say. This paragraph will be
+  updated at launch.
 - When something breaks (e.g. the connection to Facebook expires), the system
-  raises its own alarm — a note appears in the project's issue list and the
-  tech contact deals with it. The fix steps live in a section that will be
-  added in that phase.
+  raises its own alarm — an issue appears in the project's GitHub issue list
+  and the tech contact deals with it using §10 and §11 below.
 
 ---
 
@@ -179,6 +179,57 @@ role's name and contact details — that handover checklist is in
 
 ---
 
-_Sections still to be written as the project grows: town-crier fix-it guides
-("post didn't appear on Facebook", "token needs attention") arrive with
-Phase 4, and the ownership handover checklist lives in `docs/HANDOVER.md`._
+## 10. Fixing a dead token (for the tech contact)
+
+If there's an open issue titled **"⚠️ Social posting is broken — token needs
+attention"**, the robot's key to Facebook/Instagram has stopped working
+(revoked, expired, or a permission changed). The website is unaffected.
+
+1. Sign in at **business.facebook.com** with the account that owns the
+   charity's business portfolio.
+2. **Settings → Users → System users → town-crier → Generate token.**
+   Choose the **SLF Town Crier** app, expiration **Never**, and tick the five
+   permissions: `pages_manage_posts`, `pages_read_engagement`,
+   `instagram_basic`, `instagram_content_publish`, `business_management`.
+   (Full click-by-click detail: `docs/META_SETUP.md`, steps 5.6–5.8.)
+3. Copy the new token straight into the GitHub secret: repo **Settings →
+   Secrets and variables → Actions → META_ACCESS_TOKEN → Update**.
+4. Re-run the town crier (GitHub → **Actions → Town crier → Run workflow**)
+   and check it goes green. It will confirm "Token health check: OK".
+5. Close the issue. Total time: about ten minutes.
+
+## 11. "A post didn't appear on Facebook/Instagram" (for the tech contact)
+
+First: the crier retries every hour by itself, and a post can never go out
+twice — so the safe default is to wait an hour. If it's persistent, there'll
+be an open issue labelled `cross-post-failure` with the sanitised error per
+post and channel. The usual suspects:
+
+- **Instagram, "couldn't process the image"** — Instagram only accepts JPEG.
+  Re-upload the photo as a .jpg in the CMS and save; the crier picks it up
+  next run.
+- **Post has no photo and Instagram was expected** — not an error: Instagram
+  is skipped by design for photo-less posts (Facebook still goes out). Add a
+  photo and it will post retroactively.
+- **Everything failing** — check the token issue (§10) and Meta's status page
+  (metastatus.com).
+- **The run itself is red but nothing else is wrong** — read the run's
+  summary page in GitHub Actions; it says exactly what happened in plain
+  English.
+
+To skip social for a single post on purpose: untick both channels in the CMS
+before it first goes out (or before its go-live time arrives).
+
+## 12. Technical notes (developers only)
+
+- The Meta Graph API version is pinned in `scripts/town-crier/graph.ts`
+  (`GRAPH_API_VERSION`, currently **v25.0**, chosen July 2026). Meta versions
+  live for ~2 years. **Yearly review reminder:** each July, check
+  [Meta's version list](https://developers.facebook.com/docs/graph-api/changelog/versions/)
+  and bump the constant if v25 is within a year of retirement, then run the
+  test checklist against the throwaway page.
+- The cross-post ledger is `.social/state.json`, committed by the workflow as
+  `town-crier[bot]`. Never edit it by hand; restore from git history if it's
+  ever mangled.
+- The ownership handover checklist lives in `docs/HANDOVER.md` (written in
+  Phase 4).

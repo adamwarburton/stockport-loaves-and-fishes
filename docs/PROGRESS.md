@@ -1,16 +1,54 @@
 # Project progress
 
-_Last updated: 6 July 2026 (end of Phase 2 session)._
+_Last updated: 6 July 2026 (end of Phase 3 session)._
 
 ## Where we are
 
-| Phase                     | Status                                          |
-| ------------------------- | ----------------------------------------------- |
-| 0 — Bootstrap             | ✅ Done                                         |
-| 1 — Site + content engine | ✅ Done — copy review still open                |
-| 2 — CMS                   | 🟡 Built — human must connect + acceptance-test |
-| 3 — Town crier (dry run)  | ⏳ Not started                                  |
-| 4 — Live test → launch    | ⏳ Not started                                  |
+| Phase                     | Status                                            |
+| ------------------------- | ------------------------------------------------- |
+| 0 — Bootstrap             | ✅ Done                                           |
+| 1 — Site + content engine | ✅ Done — copy review still open                  |
+| 2 — CMS                   | ✅ Done — acceptance test passed                  |
+| 3 — Town crier (dry run)  | 🟡 Built & dry-running — human does META_SETUP.md |
+| 4 — Live test → launch    | ⏳ Not started                                    |
+
+## Phase 3 — what was done
+
+- **Town crier implemented** (`scripts/town-crier/`): shared-parser loading,
+  ledger diffing (`.social/state.json`), liveness gate (post + image must be
+  HTTP 200 before Meta is pointed at them), token health check with pinned
+  issue on auth death, Facebook photo/link posts, Instagram container →
+  poll → publish flow, per-channel failure isolation, immediate state writes
+  after every success, sanitised errors (token never leaves the Graph client,
+  query strings stripped), GitHub issues per failure kind (upsert — comments
+  on the open issue rather than hourly spam).
+- **Caption rules per §8**: handwritten social text + URL; Facebook fallback
+  = title + URL; Instagram fallback = title + link-in-bio phrasing + trailing
+  URL; no-image posts skip Instagram with a `skipped: no-image` ledger entry
+  that automatically retries if the post later gains an image.
+- **Workflow** (`.github/workflows/town-crier.yml`): push (content/posts
+  paths) + hourly cron (minute 17) + manual button with `override_dry_run`;
+  `concurrency: town-crier, cancel-in-progress: false`; ledger committed
+  `[skip ci]` as `town-crier[bot]` even on failed runs (`if: always()`).
+- **DRY_RUN repository variable created, set to `"true"`** — the crier
+  describes what it would post; no Graph writes, no ledger commits, until a
+  human flips it (Phase 4 final step).
+- **16 new unit tests** (49 total): captions/fallbacks, ledger diffing, state
+  transitions, skip-retry semantics, mangled-ledger error.
+- **Graph API version pinned at v25.0** (latest stable, released Feb 2026 —
+  verified against Meta's changelog) with a yearly-review note in RUNBOOK §12.
+- **`docs/META_SETUP.md`**: checkbox walkthrough of portfolio → new Page →
+  IG Business account → Business app (Development Mode, explicitly no App
+  Review) → System User + never-expiring token (5 scopes) → Graph Explorer ID
+  retrieval → `gh secret set`/web UI → mandatory throwaway-assets test.
+- **RUNBOOK §§10–12 added**: dead-token fix steps (linked from the alarm
+  issue), cross-post failure triage, pinned-version yearly review.
+
+### Phase 3 — what the human must do (the STOP)
+
+Work through `docs/META_SETUP.md` **against throwaway assets first** (its
+step 8), ending with the three secrets in GitHub Actions. Phase 4 then
+live-tests against the throwaway page before any real asset is touched.
 
 ## Phase 2 — what was done
 
@@ -81,12 +119,12 @@ _Last updated: 6 July 2026 (end of Phase 2 session)._
 
 ## What's next
 
-- **Human**: connect the repo at app.pagescms.org and run the Phase 2
-  acceptance test (see "what the human must do" above). Copy/design feedback
-  from the Phase 1 review can land any time — it's all CMS-editable now.
-- **Phase 3 (after go-ahead)**: the town crier — `scripts/town-crier/`,
-  `.github/workflows/town-crier.yml` (DRY_RUN=true), unit tests, and
-  `docs/META_SETUP.md`, the click-by-click Meta walkthrough.
+- **Human**: `docs/META_SETUP.md` end to end, throwaway assets first, secrets
+  into GitHub Actions.
+- **Phase 4 (after that)**: supervised live test against the throwaway
+  page/IG (image post, no-image post, scheduled post, deliberate failure,
+  token-death alarm), swap secrets to the real assets, finish RUNBOOK and
+  write HANDOVER.md. Launch is the human's decision.
 
 ## Open questions / actions for the human
 
