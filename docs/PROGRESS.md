@@ -1,53 +1,64 @@
 # Project progress
 
-_Last updated: 6 July 2026 (end of Phase 0 session)._
+_Last updated: 6 July 2026 (end of Phase 1 session)._
 
 ## Where we are
 
-| Phase                             | Status         |
-| --------------------------------- | -------------- |
-| 0 — Bootstrap                     | ✅ Done        |
-| 1 — Site + content engine         | ⏳ Not started |
-| 2 — CMS                           | ⏳ Not started |
-| 3 — Town crier (dry run)          | ⏳ Not started |
-| 4 — Live test → launch            | ⏳ Not started |
+| Phase                     | Status                     |
+| ------------------------- | -------------------------- |
+| 0 — Bootstrap             | ✅ Done                    |
+| 1 — Site + content engine | ✅ Done — awaiting review  |
+| 2 — CMS                   | ⏳ Not started             |
+| 3 — Town crier (dry run)  | ⏳ Not started             |
+| 4 — Live test → launch    | ⏳ Not started             |
 
-## Phase 0 — what was done
+## Phase 1 — what was done
 
-- Git repository initialised; CLAUDE.md (the project brief) is the first commit.
-- Next.js scaffolded: latest stable (16.x), App Router, TypeScript strict, Tailwind CSS v4,
-  ESLint, Prettier, Vitest.
-- `.gitignore` covers `.env*` and `.vercel` from the first scaffold commit — no secrets can
-  be committed by accident.
-- CI workflow (`.github/workflows/ci.yml`): lint, typecheck, tests and build on every pull
-  request and every push to `main`.
-- Public GitHub repo created: `adamwarburton/stockport-loaves-and-fishes`.
-- Vercel project `stockport-loaves-and-fishes` created under team `adamwarburtons-projects`
-  and connected to the GitHub repo — every push to `main` deploys automatically.
-- End-to-end deploy verified at <https://stockport-loaves-and-fishes.vercel.app>.
+- **Content engine** (`src/lib/content.ts`): one shared markdown parser with zod
+  validation — the site build and (later) the town crier both use it. Invalid
+  frontmatter fails tests/CI/build with a plain-English message naming the file,
+  the field, and the fix. 14 unit tests cover parsing, defaults, visibility
+  rules and the real content files.
+- **All routes from CLAUDE.md §7** with real draft copy in the §6 voice:
+  `/` (three doors), `/help`, `/our-story`, `/how-to-help` (needs list + donate
+  placeholder + transparency block), `/news`, `/news/[slug]`, `/contact`,
+  plus `/feed.xml` (RSS 2.0, full items, absolute URLs), sitemap.xml, robots.txt,
+  a friendly 404, favicon (SVG + apple-icon PNG), OpenGraph/Twitter meta, and
+  JSON-LD NGO/Organization schema carrying charity number 1200660.
+- **Seed content**: five posts exercising every frontmatter permutation —
+  image + social text (happy path), no-image + no social text (caption fallback,
+  Instagram skip), scheduled-future (hidden until September), website-only
+  (`channels: []`), and a draft. Two placeholder illustrations (bowl, pot — no
+  people, no text) stand in until the charity provides real photos.
+- **Palette** recorded and commented in `tailwind.config.ts` (loaded into
+  Tailwind v4 via `@config`): teal-forward brand + warm amber accent on warm
+  paper, every colour pairing contrast-checked to WCAG 2.1 AA. Type: Fraunces
+  for headings, Geist for body, 18px base.
+- **Accessibility & performance**: semantic HTML, skip link, visible focus
+  styles, `prefers-reduced-motion` honoured, "I need help" button in the sticky
+  header on every page. Content pages ship no client-side JS beyond the Next.js
+  runtime. Lighthouse (mobile): `/` 96/100/100/100, `/help` 98/100/100/100,
+  post page 98/100/100/100.
+- **Freshness without rebuilds**: pages revalidate hourly (ISR), so a scheduled
+  post appears within the hour it goes live — no rebuild, no cron, free tier.
+- `docs/FACTS_TO_CONFIRM.md` logs every `[CONFIRM]` fact used in copy, the
+  signposting numbers (looked up 6 July 2026, sources linked), and the open
+  placeholders (donation platform, Facebook link, registered postal address).
 
-Notes:
+## What's next
 
-- `tailwind.config.ts` is deliberately deferred to Phase 1: Tailwind v4 is configured in
-  CSS, and CLAUDE.md says the palette is proposed and recorded in that file in Phase 1 —
-  creating an empty one now would just be dead config.
-- The site currently shows the default Next.js placeholder page. Real pages and copy are
-  Phase 1 work.
-
-## What's next (Phase 1 — needs human go-ahead)
-
-Site + content engine: shared markdown parser with zod validation, all routes from
-CLAUDE.md §7 with real draft copy in the §6 voice, seed posts covering every frontmatter
-permutation, RSS feed, SEO/meta/JSON-LD schema, palette proposal, Lighthouse pass.
+- **Human review** of copy and design on the live URL — that's the Phase 1 STOP.
+- **Phase 2 (after go-ahead)**: `.pages.yml` for Pages CMS, connect the repo at
+  app.pagescms.org, write the volunteer-facing CMS instructions in
+  `docs/RUNBOOK.md`. Acceptance test: a human publishes a test post unaided.
 
 ## Open questions / actions for the human
 
-1. **Old GitHub repo:** a pre-existing empty repo `adamwarburton/stockport_loaves_and_fishes`
-   (underscores) exists on GitHub — the local folder's git remote originally pointed at it.
-   The project now lives in `stockport-loaves-and-fishes` (hyphens, per the brief). Consider
-   deleting the underscore repo to avoid confusion. Nothing depends on it.
-2. **GitHub token scope:** the `gh` CLI isn't persistently logged in (the keychain token
-   lacks the `read:org` scope `gh auth login` insists on). Commands work by passing the
-   keychain token as `GH_TOKEN`. If that token is ever revoked, run `gh auth login`.
-3. All copy facts marked `[CONFIRM]` in CLAUDE.md §5 will be logged in
-   `docs/FACTS_TO_CONFIRM.md` when Phase 1 writes the first real copy.
+1. **Review `docs/FACTS_TO_CONFIRM.md`** — every unverified fact used in the
+   draft copy is listed there with where it appears.
+2. **Old GitHub repo**: the pre-existing empty `adamwarburton/stockport_loaves_and_fishes`
+   (underscores) repo can be deleted whenever convenient; nothing depends on it.
+3. **GitHub CLI auth**: `gh` works via the keychain token passed as `GH_TOKEN`
+   (the token lacks `read:org`, which persistent `gh auth login` insists on).
+4. **Donation platform decision** is the biggest outstanding content blocker —
+   the donate button is a clearly-marked placeholder until then.
