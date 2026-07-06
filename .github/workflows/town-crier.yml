@@ -1,0 +1,72 @@
+# The town crier: cross-posts new website posts to Facebook & Instagram.
+#
+# SAFETY: the repository variable DRY_RUN defaults to "true" and the crier
+# will not write to any social channel until a human sets it to "false"
+# (the final launch step — see docs/META_SETUP.md). The manual-run button has
+# an override for supervised testing against throwaway accounts only.
+name: Town crier
+
+on:
+  push:
+    branches: [main]
+    paths: ["content/posts/**"]
+  schedule:
+    # Hourly, off-peak minute. GitHub cron is best-effort; fine for us —
+    # this is also the retry loop for deferred/failed posts.
+    - cron: "17 * * * *"
+  workflow_dispatch:
+    inputs:
+      override_dry_run:
+        description: "Actually post, ignoring DRY_RUN=true (supervised testing against throwaway accounts ONLY)"
+        type: boolean
+        default: false
+
+# Runs queue and never overlap: this plus the ledger is the double-post guarantee.
+concurrency:
+  group: town-crier
+  cancel-in-progress: false
+
+permissions:
+  contents: write # to commit the ledger
+  issues: write # to raise its own alarms
+
+jobs:
+  crier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run the town crier
+        env:
+          # Dry run unless BOTH a human set the repo variable DRY_RUN=false
+          # OR this is a manual run with the override box ticked.
+          DRY_RUN: ${{ (github.event_name == 'workflow_dispatch' && inputs.override_dry_run) && 'false' || (vars.DRY_RUN == 'false' && 'false' || 'true') }}
+          META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
+          META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
+          META_IG_USER_ID: ${{ secrets.META_IG_USER_ID }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx tsx scripts/town-crier/index.ts
+
+      # Even if the run failed halfway, whatever DID post must be remembered —
+      # otherwise the next run would post it again.
+      - name: Commit the ledger
+        if: always()
+        run: |
+          if git diff --quiet -- .social/state.json; then
+            echo "Ledger unchanged — nothing to commit."
+            exit 0
+          fi
+          git config user.name "town-crier[bot]"
+          git config user.email "town-crier[bot]@users.noreply.github.com"
+          git add .social/state.json
+          git commit -m "chore(social): record cross-posts [skip ci]"
+          git pull --rebase origin main
+          git push
