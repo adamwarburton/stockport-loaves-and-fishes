@@ -63,6 +63,24 @@ describe("parsePost", () => {
     expect(() => parsePost("my-post.md", VALID)).toThrowError(/2026-07-09-my-post\.md/);
   });
 
+  it("treats a bare CMS timestamp as UK time in summer (BST = UTC+1)", () => {
+    const raw = `---\ntitle: "Summer"\npublishAt: 2026-07-09T10:00\nstatus: published\n---\nHi.`;
+    const post = parsePost("2026-07-09-summer.md", raw);
+    expect(post.publishAt.toISOString()).toBe("2026-07-09T09:00:00.000Z");
+  });
+
+  it("treats a bare CMS timestamp as UK time in winter (GMT = UTC)", () => {
+    const raw = `---\ntitle: "Winter"\npublishAt: 2026-01-09T10:00\nstatus: published\n---\nHi.`;
+    const post = parsePost("2026-01-09-winter.md", raw);
+    expect(post.publishAt.toISOString()).toBe("2026-01-09T10:00:00.000Z");
+  });
+
+  it("keeps an explicit UTC timestamp exactly as written", () => {
+    const raw = `---\ntitle: "Zulu"\npublishAt: "2026-07-09T10:00:00Z"\nstatus: published\n---\nHi.`;
+    const post = parsePost("2026-07-09-zulu.md", raw);
+    expect(post.publishAt.toISOString()).toBe("2026-07-09T10:00:00.000Z");
+  });
+
   it("builds an excerpt from the first paragraph", () => {
     const raw = `---\ntitle: "Hello"\npublishAt: 2026-07-01T09:00:00Z\nstatus: published\n---\n## Heading\n\nFirst **paragraph** with a [link](https://example.org).\n\nSecond paragraph.`;
     const post = parsePost("2026-07-01-hello.md", raw);

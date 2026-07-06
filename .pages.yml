@@ -1,0 +1,147 @@
+# Pages CMS configuration (app.pagescms.org).
+#
+# This file turns the repo into a friendly web form for volunteers — it IS a
+# volunteer-facing product, so every label and description below is written
+# for someone who has never seen a code editor and never should have to.
+#
+# The field names must match the frontmatter contract in src/lib/content.ts
+# (title, publishAt, status, image, imageAlt, categories, social.text,
+# social.channels, body). Change them in both places or not at all.
+
+media:
+  input: public/images/posts
+  output: /images/posts
+  extensions: [jpg, jpeg, png, webp, svg]
+
+content:
+  - name: posts
+    label: News & posts
+    description: News for the website. Posts marked published are shared to Facebook and Instagram automatically (once the town crier is switched on).
+    type: collection
+    path: content/posts
+    filename: "{year}-{month}-{day}-{fields.title}.md"
+    view:
+      fields: [title, publishAt, status]
+      primary: title
+      sort: [publishAt, title]
+      default:
+        sort: publishAt
+        order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+        description: Short and warm, like "What we need this week". This also becomes the post's web address, so keep it simple.
+      - name: publishAt
+        label: When should this go live?
+        type: date
+        required: true
+        options:
+          time: true
+        description: UK date and time. The post stays hidden until this moment — pick a time that's already passed to publish straight away.
+      - name: status
+        label: Status
+        type: select
+        required: true
+        default: draft
+        description: Drafts are completely invisible — take your time. Switch to Published when it's ready for the world.
+        options:
+          values:
+            - value: draft
+              label: Draft (hidden, safe to fiddle with)
+            - value: published
+              label: Published (live on the website)
+      - name: image
+        label: Photo
+        type: image
+        description: Optional, but Instagram skips posts without one. Landscape shape works best, around 1600 pixels wide. Food, hands, tables, the building — never identifiable faces of our guests.
+      - name: imageAlt
+        label: Photo description
+        type: string
+        description: Describe the photo for people who can't see it, e.g. "Folded winter coats on a table". Needed whenever there's a photo.
+      - name: categories
+        label: Categories
+        type: select
+        description: Optional — helps keep the news page tidy. Pick whatever fits.
+        options:
+          multiple: true
+          values:
+            - value: weekly-needs
+              label: Weekly needs
+            - value: thank-you
+              label: Thank you
+            - value: volunteer-voices
+              label: Volunteer voices
+            - value: story
+              label: Story
+            - value: seasonal
+              label: Seasonal
+            - value: update
+              label: Update
+      - name: social
+        label: Sharing on Facebook & Instagram
+        type: object
+        fields:
+          - name: text
+            label: How should this read on Facebook/Instagram?
+            type: text
+            description: Short and friendly, like a message to a mate. If you leave this blank we'll use the post title.
+          - name: channels
+            label: Where should we share it?
+            type: select
+            default: [facebook, instagram]
+            description: Untick both to keep a post on the website only.
+            options:
+              multiple: true
+              values:
+                - value: facebook
+                  label: Facebook
+                - value: instagram
+                  label: Instagram (needs a photo)
+      - name: body
+        label: The post itself
+        type: rich-text
+        description: The full, warm version for the website. Write like you're talking to someone across the table.
+
+  - name: needs
+    label: What we need now
+    description: The live list on the "How to help" page. Keep it honest — if the cellar's full of beans, take beans off the list.
+    type: file
+    path: content/settings/needs.md
+    fields:
+      - name: title
+        label: Heading
+        type: string
+        required: true
+      - name: body
+        label: The list
+        type: rich-text
+        description: One item per bullet point. This appears word-for-word on the website, so read it back once before saving.
+
+  - name: pages
+    label: Page copy
+    description: The wording on the website's main pages. Edit freely — you can't break the site from here.
+    type: collection
+    path: content/pages
+    operations:
+      create: false
+      rename: false
+      delete: false
+    view:
+      fields: [title]
+      primary: title
+    fields:
+      - name: title
+        label: Page heading
+        type: string
+        required: true
+        description: The big heading at the top of the page.
+      - name: strapline
+        label: Strapline
+        type: string
+        description: The friendly line under the heading. Not every page has one, and that's fine.
+      - name: body
+        label: Page text
+        type: rich-text
+        description: The main wording of the page. Headings, bullets and links all work.

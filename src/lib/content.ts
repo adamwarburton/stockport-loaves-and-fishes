@@ -26,10 +26,83 @@ export const CHANNELS = ["facebook", "instagram"] as const;
 export type Category = (typeof CATEGORIES)[number];
 export type Channel = (typeof CHANNELS)[number];
 
+/**
+ * publishAt arrives in one of three shapes:
+ *  - a Date (YAML parses timestamps with seconds/offsets itself; bare ones
+ *    are UTC per the YAML spec) — used as-is;
+ *  - a string with an explicit timezone (e.g. 2026-07-09T10:00:00Z) — parsed
+ *    as written;
+ *  - a bare string like "2026-07-09T10:00" — this is what the CMS date picker
+ *    saves, and the volunteer picking it means *UK wall time*, so it's
+ *    interpreted as Europe/London and converted to the real UTC instant.
+ */
+const NAIVE_TIMESTAMP = /^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2}))?$/;
+
+function londonOffsetMs(instant: Date): number {
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Europe/London",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hourCycle: "h23",
+    })
+      .formatToParts(instant)
+      .map((p) => [p.type, p.value]),
+  );
+  const wallClockAsUtc = Date.UTC(
+    Number(parts.year),
+    Number(parts.month) - 1,
+    Number(parts.day),
+    Number(parts.hour),
+    Number(parts.minute),
+    Number(parts.second),
+  );
+  return wallClockAsUtc - instant.getTime();
+}
+
+function londonWallTimeToUtc(
+  y: number,
+  mo: number,
+  d: number,
+  h: number,
+  mi: number,
+  s: number,
+): Date {
+  const guess = Date.UTC(y, mo - 1, d, h, mi, s);
+  // Two passes in case subtracting the offset crosses a DST boundary.
+  const once = guess - londonOffsetMs(new Date(guess));
+  return new Date(guess - londonOffsetMs(new Date(once)));
+}
+
+function toPublishAtDate(value: unknown): unknown {
+  if (value instanceof Date) return value;
+  if (typeof value === "string") {
+    const naive = NAIVE_TIMESTAMP.exec(value.trim());
+    if (naive) {
+      const [, y, mo, d, h, mi, s] = naive;
+      return londonWallTimeToUtc(
+        Number(y),
+        Number(mo),
+        Number(d),
+        Number(h),
+        Number(mi),
+        Number(s ?? 0),
+      );
+    }
+    const parsed = new Date(value);
+    if (!Number.isNaN(parsed.getTime())) return parsed;
+  }
+  return value;
+}
+
 const postFrontmatterSchema = z
   .object({
     title: z.string().min(1),
-    publishAt: z.coerce.date(),
+    publishAt: z.preprocess(toPublishAtDate, z.date()),
     status: z.enum(["draft", "published"]),
     image: z.string().startsWith("/").optional(),
     imageAlt: z.string().min(1).optional(),
