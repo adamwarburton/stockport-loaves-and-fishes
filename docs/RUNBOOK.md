@@ -162,6 +162,12 @@ the post form (the social text box and the channel ticks).
   raises its own alarm — an issue appears in the project's GitHub issue list
   and the tech contact deals with it using §10 and §11 below.
 
+**How to keep one post off social media:** untick both boxes under "Where
+should we share it?" before the post goes live. That post stays on the
+website only, forever — the robot never revisits a decision like this once
+the post has gone out, so set the ticks how you want them _before_
+publishing (or while the go-live time is still in the future).
+
 ---
 
 ## 9. Who to call

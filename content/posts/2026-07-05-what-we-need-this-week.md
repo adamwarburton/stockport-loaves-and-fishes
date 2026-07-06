@@ -2,7 +2,7 @@
 title: "What we need this week"
 publishAt: 2026-07-05T09:00:00Z
 status: published
-image: /images/posts/steaming-bowl.svg
+image: /images/posts/steaming-bowl.jpg
 imageAlt: "Illustration of a steaming bowl of hot food on a teal background"
 categories: [weekly-needs]
 social:
@@ -12,6 +12,7 @@ social:
     Street, SK3 9DR. Ta.
   channels: [facebook, instagram]
 ---
+
 The pans are on, the kettle's never off — but the cupboard could use a top-up. If you're having a clear-out or doing a big shop this week, here's what would help most:
 
 - **Men's winter coats** — all sizes, large especially

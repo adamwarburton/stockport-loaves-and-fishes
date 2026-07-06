@@ -2,6 +2,7 @@
 title: "Our story"
 strapline: "Small charity. Big pan."
 ---
+
 ## It started with a car boot
 
 Over a decade ago, our founder Ed Leavy was told there were "no homeless in Stockport". He went out one evening to see for himself.

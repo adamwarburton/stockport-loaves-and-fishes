@@ -1,16 +1,46 @@
 # Project progress
 
-_Last updated: 6 July 2026 (end of Phase 3 session)._
+_Last updated: 6 July 2026 (Phase 4 prep session)._
 
 ## Where we are
 
-| Phase                     | Status                                            |
-| ------------------------- | ------------------------------------------------- |
-| 0 — Bootstrap             | ✅ Done                                           |
-| 1 — Site + content engine | ✅ Done — copy review still open                  |
-| 2 — CMS                   | ✅ Done — acceptance test passed                  |
-| 3 — Town crier (dry run)  | 🟡 Built & dry-running — human does META_SETUP.md |
-| 4 — Live test → launch    | ⏳ Not started                                    |
+| Phase                     | Status                                                  |
+| ------------------------- | ------------------------------------------------------- |
+| 0 — Bootstrap             | ✅ Done                                                 |
+| 1 — Site + content engine | ✅ Done — copy review still open                        |
+| 2 — CMS                   | ✅ Done — acceptance test passed                        |
+| 3 — Town crier (dry run)  | ✅ Done — dry run verified in Actions                   |
+| 4 — Live test → launch    | 🟡 Prepared — awaiting META_SETUP.md, then LIVE_TEST.md |
+
+## Phase 4 — prepared (everything that doesn't need the Meta secrets)
+
+- **Placeholder images converted SVG → JPEG** (1200×630, rendered via
+  headless Chrome): Instagram only accepts JPEG, so the seed posts would
+  have failed the live test. The two posts now reference `.jpg` files; the
+  SVGs are gone.
+- **`docs/LIVE_TEST.md`** — the step-by-step live-fire script for the
+  throwaway assets: dry-run sanity check, first live fire (image + no-image
+  - idempotency re-run), scheduled post, deliberate failure → issue,
+    token-death alarm, website-only post, then the switch-to-real-assets
+    procedure including the ledger reset decision and the final DRY_RUN flip
+    (a human's, deliberately).
+- **`docs/HANDOVER.md`** — the ownership-transfer checklist: GitHub org +
+  repo transfer, Vercel account move, Meta portfolio admins, Pages CMS
+  re-invites, password manager, two-admins-everywhere, yearly review diary,
+  and the "removing the project lead" endgame.
+- **RUNBOOK completed** for its Phase 4 obligations: "post didn't appear"
+  (§11), "token needs attention" (§10), "how to skip social for one post"
+  (§8), "who to call" (§9, names to be filled at handover).
+
+### Phase 4 — what remains (needs the human + secrets)
+
+1. Complete `docs/META_SETUP.md` with **throwaway** assets (planned:
+   7 July 2026).
+2. Run `docs/LIVE_TEST.md` end to end — the developer/assistant can drive
+   the button-pressing and verification on request once secrets exist.
+3. Swap secrets to the real Page/IG, reset the ledger deliberately.
+4. RUNBOOK §8 status paragraph + §9 names updated at launch.
+5. **Launch = the human sets DRY_RUN to false.** Nothing else flips it.
 
 ## Phase 3 — what was done
 

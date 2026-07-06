@@ -2,6 +2,7 @@
 title: "How to help"
 strapline: "Give a fiver, feed a neighbour."
 ---
+
 ## Volunteer
 
 Can you stir a pot, carry a table, or hold a conversation? You're hired. (We don't pay. But the company's excellent.)

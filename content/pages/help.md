@@ -2,6 +2,7 @@
 title: "Come and eat. It's free."
 strapline: "Hot food, warm welcome, no questions asked."
 ---
+
 ## What happens
 
 You walk in. You sit down. Someone brings you a hot dinner and a brew.

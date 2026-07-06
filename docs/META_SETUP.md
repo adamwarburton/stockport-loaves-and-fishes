@@ -189,9 +189,9 @@ Point the three GitHub secrets at the _throwaway_ IDs and token first. Then:
 - [ ] 8.2 Live-fire at the throwaway: run it again with **override_dry_run
       ticked**. Real posts should appear on the test Page (and Instagram, for
       posts with a JPEG photo).
-- [ ] 8.3 Work through the Phase 4 test checklist with the project developer
-      (image post, no-image post, scheduled post, deliberate failure, token
-      alarm).
+- [ ] 8.3 Work through `docs/LIVE_TEST.md` — the step-by-step live-fire
+      script (image post, no-image post, scheduled post, deliberate failure,
+      token alarm, website-only post).
 - [ ] 8.4 Only when all of that behaves: repeat steps 5.4–7 with the **real**
       Page and Instagram IDs and a fresh token, and delete the throwaway
       Page/account.
