@@ -1,0 +1,9 @@
+# Build output and dependencies — not ours to format
+.next/
+node_modules/
+.vercel/
+package-lock.json
+next-env.d.ts
+
+# The cross-post ledger is machine-written; formatting it creates noisy diffs
+.social/state.json
