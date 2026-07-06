@@ -7,3 +7,6 @@ next-env.d.ts
 
 # The cross-post ledger is machine-written; formatting it creates noisy diffs
 .social/state.json
+
+# Human-authored project brief — leave exactly as written
+CLAUDE.md
