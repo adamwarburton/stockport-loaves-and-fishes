@@ -1,16 +1,50 @@
 # Project progress
 
-_Last updated: 6 July 2026 (end of Phase 1 session)._
+_Last updated: 6 July 2026 (end of Phase 2 session)._
 
 ## Where we are
 
-| Phase                     | Status                     |
-| ------------------------- | -------------------------- |
-| 0 — Bootstrap             | ✅ Done                    |
-| 1 — Site + content engine | ✅ Done — awaiting review  |
-| 2 — CMS                   | ⏳ Not started             |
-| 3 — Town crier (dry run)  | ⏳ Not started             |
-| 4 — Live test → launch    | ⏳ Not started             |
+| Phase                     | Status                                          |
+| ------------------------- | ----------------------------------------------- |
+| 0 — Bootstrap             | ✅ Done                                         |
+| 1 — Site + content engine | ✅ Done — copy review still open                |
+| 2 — CMS                   | 🟡 Built — human must connect + acceptance-test |
+| 3 — Town crier (dry run)  | ⏳ Not started                                  |
+| 4 — Live test → launch    | ⏳ Not started                                  |
+
+## Phase 2 — what was done
+
+- **`.pages.yml`** written per CLAUDE.md §9 — three content types: "News &
+  posts" (full post form incl. photo upload to `public/images/posts`, photo
+  description, go-live datetime, social text, channel ticks, draft/published),
+  "What we need now" (`content/settings/needs.md`), and "Page copy"
+  (`content/pages/*`, with create/rename/delete disabled so volunteers can't
+  break routes). All labels and hints in the house voice.
+- **Validated against the real Pages CMS schema**: their config-schema source
+  was downloaded from the pages-cms repo and run (zod v3 + stubbed field
+  registry) against our file — it passes. Field options (date `time`, select
+  `multiple`, media path swapping, `operations`) were all verified from source,
+  not guessed.
+- **UK-time handling for CMS dates**: the CMS date picker saves bare local
+  timestamps (`2026-07-09T10:00`). The shared parser now interprets bare
+  timestamps as Europe/London wall time (what a volunteer means) and converts
+  to UTC; explicit `Z`/offset timestamps are untouched. Covered by 3 new unit
+  tests (summer/BST, winter/GMT, explicit UTC) — 17 tests total.
+- **`docs/RUNBOOK.md`** written for volunteers: access by email invitation (no
+  GitHub account needed), publishing/scheduling/drafting posts, updating the
+  needs list, editing page copy, photo dignity rules, "my change isn't showing
+  up" checklist, and who to call.
+
+### Phase 2 — what the human must do (the STOP)
+
+1. Sign in at app.pagescms.org with GitHub (`adamwarburton`), install/authorise
+   the Pages CMS GitHub App on the `stockport-loaves-and-fishes` repo — the one
+   OAuth click.
+2. **Acceptance test:** publish a test post end-to-end using only
+   `docs/RUNBOOK.md` §3, unaided. Then check it appears on the live site
+   (2–3 min build + it must have status Published and a past go-live time).
+3. Report anything confusing in the form labels or the runbook — those are
+   product defects in this phase, not user error.
 
 ## Phase 1 — what was done
 
@@ -47,10 +81,12 @@ _Last updated: 6 July 2026 (end of Phase 1 session)._
 
 ## What's next
 
-- **Human review** of copy and design on the live URL — that's the Phase 1 STOP.
-- **Phase 2 (after go-ahead)**: `.pages.yml` for Pages CMS, connect the repo at
-  app.pagescms.org, write the volunteer-facing CMS instructions in
-  `docs/RUNBOOK.md`. Acceptance test: a human publishes a test post unaided.
+- **Human**: connect the repo at app.pagescms.org and run the Phase 2
+  acceptance test (see "what the human must do" above). Copy/design feedback
+  from the Phase 1 review can land any time — it's all CMS-editable now.
+- **Phase 3 (after go-ahead)**: the town crier — `scripts/town-crier/`,
+  `.github/workflows/town-crier.yml` (DRY_RUN=true), unit tests, and
+  `docs/META_SETUP.md`, the click-by-click Meta walkthrough.
 
 ## Open questions / actions for the human
 
