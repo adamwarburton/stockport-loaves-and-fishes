@@ -1,26 +1,113 @@
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* The palette lives in tailwind.config.ts (commented, contrast-checked). */
+@config "../../tailwind.config.ts";
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Big readable type: 1rem = 18px, so every size on the site scales up.
+   (CLAUDE.md §7: assume a cheap phone and tired eyes.) */
+html {
+  font-size: 112.5%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #fdfbf7; /* paper */
+  color: #1c1917; /* ink */
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+/* One obvious, high-contrast focus style everywhere. */
+:focus-visible {
+  outline: 3px solid #b45309; /* accent-700 */
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Skip link: invisible until a keyboard user tabs to it. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+}
+.skip-link:focus-visible {
+  left: 0.5rem;
+  top: 0.5rem;
+  background: #fdfbf7;
+  color: #115e59;
+  font-weight: 700;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.25);
+}
+
+/* Some people get motion-sick: honour their setting, site-wide. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Hand-rolled prose styles for markdown bodies — no typography plugin,
+   one less dependency for the charity to inherit. */
+.prose {
+  max-width: 42rem;
+}
+.prose > * + * {
+  margin-top: 1.1em;
+}
+.prose h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #115e59; /* brand-800: 7.0:1 on paper */
+  margin-top: 1.8em;
+  line-height: 1.25;
+}
+.prose h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-top: 1.5em;
+}
+.prose a {
+  color: #115e59; /* brand-800 */
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 600;
+}
+.prose ul,
+.prose ol {
+  padding-left: 1.4rem;
+}
+.prose ul {
+  list-style: disc;
+}
+.prose ol {
+  list-style: decimal;
+}
+.prose li + li {
+  margin-top: 0.4em;
+}
+.prose blockquote {
+  border-left: 4px solid #fcd34d; /* accent-300 */
+  padding-left: 1rem;
+  font-style: italic;
+}
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+}
+.prose hr {
+  border: 0;
+  border-top: 2px solid #ccfbf1; /* brand-100 */
 }

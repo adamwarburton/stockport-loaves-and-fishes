@@ -1,65 +1,120 @@
-import Image from "next/image";
+import Link from "next/link";
+import { Markdown } from "@/components/Markdown";
+import { PostCard } from "@/components/PostCard";
+import { getPage, getVisiblePosts } from "@/lib/content";
+import { site } from "@/lib/site";
 
-export default function Home() {
+// Regenerate hourly so scheduled posts appear on time without a rebuild.
+export const revalidate = 3600;
+
+const DOORS = [
+  {
+    href: "/help",
+    title: "I need help",
+    text: "A hot dinner, warm clothes, and someone in your corner. Just turn up — here's what to expect.",
+    loud: true,
+  },
+  {
+    href: "/how-to-help",
+    title: "I want to give",
+    text: "Money, coats, tins, sleeping bags — see what we need this week and where to bring it.",
+    loud: false,
+  },
+  {
+    href: "/how-to-help#volunteer",
+    title: "I want to volunteer",
+    text: "Can you stir a pot, carry a table, or hold a conversation? You're hired.",
+    loud: false,
+  },
+] as const;
+
+export default async function HomePage() {
+  const page = getPage("home");
+  const latest = getVisiblePosts().slice(0, 3);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <>
+      {/* Hero: the three essentials, readable in five seconds on a bus. */}
+      <section className="bg-brand-900 text-white">
+        <div className="mx-auto max-w-5xl px-4 py-14 sm:py-20">
+          <h1 className="max-w-2xl font-[family-name:var(--font-display)] text-4xl font-semibold leading-tight sm:text-5xl">
+            Everyone&rsquo;s welcome at the table.
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="mt-4 max-w-2xl text-lg text-brand-100">
+            Hot food, warm welcome, no questions asked — every Sunday evening in Stockport, for
+            anyone who&rsquo;s homeless or struggling.
           </p>
+          <dl className="mt-8 grid max-w-3xl gap-4 sm:grid-cols-3">
+            <div className="rounded-xl bg-brand-800 p-4">
+              <dt className="text-sm font-bold uppercase tracking-wide text-accent-300">What</dt>
+              <dd className="mt-1">A free hot dinner — and practical help</dd>
+            </div>
+            <div className="rounded-xl bg-brand-800 p-4">
+              <dt className="text-sm font-bold uppercase tracking-wide text-accent-300">When</dt>
+              <dd className="mt-1">{site.mealTimes}</dd>
+            </div>
+            <div className="rounded-xl bg-brand-800 p-4">
+              <dt className="text-sm font-bold uppercase tracking-wide text-accent-300">Where</dt>
+              <dd className="mt-1">
+                {site.venue.name}, {site.venue.street}, {site.venue.postcode}
+              </dd>
+            </div>
+          </dl>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* The three doors: the whole homepage strategy. */}
+      <section aria-label="How can we help you?" className="mx-auto max-w-5xl px-4 py-12">
+        <div className="grid gap-5 sm:grid-cols-3">
+          {DOORS.map((door) => (
+            <Link
+              key={door.href}
+              href={door.href}
+              className={
+                door.loud
+                  ? "flex flex-col rounded-2xl bg-accent-300 p-6 text-ink shadow-md hover:bg-accent-200"
+                  : "flex flex-col rounded-2xl border-2 border-brand-100 bg-white p-6 shadow-sm hover:border-brand-600"
+              }
+            >
+              <span className="font-[family-name:var(--font-display)] text-2xl font-semibold text-brand-900">
+                {door.title}
+              </span>
+              <span className="mt-2 text-base">{door.text}</span>
+              <span className="mt-4 font-bold text-brand-800" aria-hidden="true">
+                &rarr;
+              </span>
+            </Link>
+          ))}
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section className="mx-auto max-w-5xl px-4 pb-4">
+        <Markdown markdown={page.body} className="prose text-lg" />
+      </section>
+
+      {latest.length > 0 && (
+        <section aria-labelledby="latest-news" className="mx-auto max-w-5xl px-4 py-12">
+          <div className="flex items-baseline justify-between gap-4">
+            <h2
+              id="latest-news"
+              className="font-[family-name:var(--font-display)] text-3xl font-semibold text-brand-900"
+            >
+              Latest from the kitchen
+            </h2>
+            <Link
+              href="/news"
+              className="font-semibold text-brand-800 underline underline-offset-4"
+            >
+              All news
+            </Link>
+          </div>
+          <div className="mt-6 grid gap-5 sm:grid-cols-3">
+            {latest.map((post) => (
+              <PostCard key={post.slug} post={post} />
+            ))}
+          </div>
+        </section>
+      )}
+    </>
   );
 }

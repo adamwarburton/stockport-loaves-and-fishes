@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- A bowl and rising steam: hot food, warm welcome. No text, no people. -->
+  <rect width="64" height="64" rx="14" fill="#115e59"/>
+  <path d="M13 36h38a19 19 0 0 1-38 0Z" fill="#fdfbf7"/>
+  <path d="M23 28c0-4 3.5-4 3.5-8" stroke="#fcd34d" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <path d="M31 26c0-5 3.5-5 3.5-10" stroke="#fcd34d" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <path d="M39 28c0-4 3.5-4 3.5-8" stroke="#fcd34d" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+</svg>
