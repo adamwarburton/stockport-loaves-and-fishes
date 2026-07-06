@@ -34,7 +34,9 @@ function note(line: string): void {
 }
 
 function absoluteImageUrl(post: Post): string | undefined {
-  return post.image ? `${site.url}${post.image}` : undefined;
+  // encodeURI: CMS uploads keep their original filenames, which can contain
+  // spaces — Meta fetches this URL server-side and needs it properly encoded.
+  return post.image ? encodeURI(`${site.url}${post.image}`) : undefined;
 }
 
 /** The post (and its image) must be live before we point Meta at it. */
