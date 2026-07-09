@@ -12,5 +12,3 @@ To everyone who dropped off coats, tins and sleeping bags this month — thank y
 Every bit of it went where you'd hope: onto plates, onto backs, and into backpacks on Thomson Street on a Sunday evening.
 
 Small charity. Big pan. Very grateful.
-
-_(This post has no photo on purpose — it's one of our test posts. On Facebook it goes out as a plain text post; Instagram needs a photo, so the town crier politely skips it there.)_
