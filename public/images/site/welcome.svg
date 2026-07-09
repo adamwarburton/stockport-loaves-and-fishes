@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+  <!-- ON-BRAND PLACEHOLDER: a bowl passed hand to hand. No faces.
+       Replace via images.welcome.src in src/lib/images.ts (docs/IMAGES.md). -->
+  <defs>
+    <linearGradient id="wBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fef3c7"/>
+      <stop offset="1" stop-color="#fde68a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#wBg)"/>
+
+  <!-- warm halo behind the bowl -->
+  <circle cx="600" cy="430" r="230" fill="#fcd34d" opacity="0.5"/>
+
+  <!-- steam -->
+  <g stroke="#0f766e" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.4">
+    <path d="M540 300 q -28 -52 0 -104 q 28 -52 0 -104"/>
+    <path d="M660 300 q -28 -52 0 -104 q 28 -52 0 -104"/>
+  </g>
+
+  <!-- the bowl -->
+  <path d="M420 420 a180 96 0 0 0 360 0 Z" fill="#0f766e"/>
+  <ellipse cx="600" cy="420" rx="180" ry="40" fill="#115e59"/>
+  <ellipse cx="600" cy="416" rx="150" ry="30" fill="#fbbf24"/>
+  <ellipse cx="600" cy="414" rx="150" ry="26" fill="#f59e0b" opacity="0.5"/>
+
+  <!-- giving hand (left, coming up under the bowl) -->
+  <g fill="#e8b98f">
+    <path d="M300 560 q 60 -70 150 -66 q 70 4 120 40 l -20 46 q -60 -30 -120 -22 q -70 10 -104 60 Z"/>
+    <ellipse cx="452" cy="516" rx="52" ry="30" transform="rotate(-16 452 516)"/>
+  </g>
+  <!-- receiving hand (right, reaching in) -->
+  <g fill="#c98b5e">
+    <path d="M900 560 q -60 -70 -150 -66 q -70 4 -120 40 l 20 46 q 60 -30 120 -22 q 70 10 104 60 Z"/>
+    <ellipse cx="748" cy="516" rx="52" ry="30" transform="rotate(16 748 516)"/>
+  </g>
+</svg>

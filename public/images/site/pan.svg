@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+  <!-- ON-BRAND PLACEHOLDER: the big pan. "Small charity. Big pan."
+       Replace via images.pan.src in src/lib/images.ts (docs/IMAGES.md). -->
+  <defs>
+    <linearGradient id="pBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f0fdfa"/>
+      <stop offset="1" stop-color="#ccfbf1"/>
+    </linearGradient>
+    <linearGradient id="pPot" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0f766e"/>
+      <stop offset="0.5" stop-color="#115e59"/>
+      <stop offset="1" stop-color="#134e4a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#pBg)"/>
+
+  <!-- steam -->
+  <g stroke="#0f766e" stroke-width="9" fill="none" stroke-linecap="round" opacity="0.35">
+    <path d="M470 300 q -34 -64 0 -128 q 34 -64 0 -128"/>
+    <path d="M600 280 q -38 -70 0 -140 q 38 -70 0 -140"/>
+    <path d="M730 300 q -34 -64 0 -128 q 34 -64 0 -128"/>
+  </g>
+
+  <!-- pot body -->
+  <path d="M330 470 h540 l-46 300 a70 40 0 0 1 -448 0 Z" fill="url(#pPot)"/>
+  <!-- rim -->
+  <ellipse cx="600" cy="470" rx="270" ry="60" fill="#0d9488"/>
+  <ellipse cx="600" cy="464" rx="270" ry="54" fill="#134e4a"/>
+  <!-- broth -->
+  <ellipse cx="600" cy="462" rx="238" ry="44" fill="#f59e0b"/>
+  <ellipse cx="600" cy="458" rx="238" ry="40" fill="#fbbf24"/>
+  <!-- veg floating -->
+  <g fill="#ea9a2e">
+    <circle cx="520" cy="452" r="16"/><circle cx="640" cy="466" r="14"/><circle cx="700" cy="450" r="12"/>
+  </g>
+  <g fill="#0f766e" opacity="0.55">
+    <circle cx="560" cy="466" r="10"/><circle cx="670" cy="456" r="9"/>
+  </g>
+  <!-- handles -->
+  <path d="M330 500 q -56 6 -56 56 q 0 40 44 46" fill="none" stroke="#134e4a" stroke-width="26" stroke-linecap="round"/>
+  <path d="M870 500 q 56 6 56 56 q 0 40 -44 46" fill="none" stroke="#134e4a" stroke-width="26" stroke-linecap="round"/>
+  <!-- ladle -->
+  <g>
+    <rect x="812" y="150" width="18" height="330" rx="9" fill="#b45309" transform="rotate(14 821 315)"/>
+    <path d="M840 470 a54 40 0 0 0 108 0 Z" fill="#d97706"/>
+  </g>
+</svg>

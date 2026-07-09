@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+  <!-- ON-BRAND PLACEHOLDER. Replace by swapping images.hero.src in src/lib/images.ts
+       to a real photo (see docs/IMAGES.md). A laid Sunday table, no faces. -->
+  <defs>
+    <linearGradient id="hSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0f766e"/>
+      <stop offset="1" stop-color="#134e4a"/>
+    </linearGradient>
+    <radialGradient id="hGlow" cx="0.5" cy="0.32" r="0.6">
+      <stop offset="0" stop-color="#fcd34d" stop-opacity="0.55"/>
+      <stop offset="0.55" stop-color="#fbbf24" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#fbbf24" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="hTable" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fdfbf7"/>
+      <stop offset="1" stop-color="#f3ede0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#hSky)"/>
+  <rect width="1600" height="1000" fill="url(#hGlow)"/>
+
+  <!-- string lights -->
+  <path d="M0 150 Q 400 250 800 180 T 1600 200" fill="none" stroke="#0d9488" stroke-width="3" opacity="0.7"/>
+  <g fill="#fde68a">
+    <circle cx="180" cy="212" r="9"/><circle cx="360" cy="238" r="9"/><circle cx="540" cy="230" r="9"/>
+    <circle cx="720" cy="200" r="9"/><circle cx="900" cy="188" r="9"/><circle cx="1080" cy="196" r="9"/>
+    <circle cx="1260" cy="205" r="9"/><circle cx="1440" cy="205" r="9"/>
+  </g>
+  <g fill="#fcd34d" opacity="0.35">
+    <circle cx="180" cy="212" r="20"/><circle cx="540" cy="230" r="20"/><circle cx="900" cy="188" r="20"/><circle cx="1260" cy="205" r="20"/>
+  </g>
+
+  <!-- steam rising behind the bowls -->
+  <g stroke="#e7fbf6" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.5">
+    <path d="M470 560 q -26 -50 0 -100 q 26 -50 0 -100"/>
+    <path d="M800 540 q -30 -55 0 -110 q 30 -55 0 -110"/>
+    <path d="M1130 560 q -26 -50 0 -100 q 26 -50 0 -100"/>
+  </g>
+
+  <!-- the table -->
+  <rect x="0" y="640" width="1600" height="360" fill="url(#hTable)"/>
+  <rect x="0" y="640" width="1600" height="16" fill="#e4d9c4"/>
+
+  <!-- three place settings: bowl on a plate -->
+  <g>
+    <!-- setting 1 -->
+    <ellipse cx="470" cy="720" rx="150" ry="34" fill="#ccfbf1"/>
+    <path d="M360 690 a110 60 0 0 0 220 0 Z" fill="#0f766e"/>
+    <path d="M380 690 a90 46 0 0 0 180 0 Z" fill="#f59e0b"/>
+    <ellipse cx="470" cy="690" rx="110" ry="20" fill="#115e59"/>
+    <ellipse cx="470" cy="688" rx="92" ry="15" fill="#fbbf24"/>
+    <!-- setting 2 (bigger, centre) -->
+    <ellipse cx="800" cy="726" rx="175" ry="40" fill="#ccfbf1"/>
+    <path d="M670 692 a130 70 0 0 0 260 0 Z" fill="#0f766e"/>
+    <path d="M692 692 a108 54 0 0 0 216 0 Z" fill="#f59e0b"/>
+    <ellipse cx="800" cy="692" rx="130" ry="24" fill="#115e59"/>
+    <ellipse cx="800" cy="690" rx="110" ry="18" fill="#fbbf24"/>
+    <!-- setting 3 -->
+    <ellipse cx="1130" cy="720" rx="150" ry="34" fill="#ccfbf1"/>
+    <path d="M1020 690 a110 60 0 0 0 220 0 Z" fill="#0f766e"/>
+    <path d="M1040 690 a90 46 0 0 0 180 0 Z" fill="#f59e0b"/>
+    <ellipse cx="1130" cy="690" rx="110" ry="20" fill="#115e59"/>
+    <ellipse cx="1130" cy="688" rx="92" ry="15" fill="#fbbf24"/>
+  </g>
+
+  <!-- a small loaf and two fishes nod (loaves & fishes), stylised -->
+  <g opacity="0.9">
+    <ellipse cx="235" cy="712" rx="70" ry="30" fill="#e8b96b"/>
+    <ellipse cx="235" cy="702" rx="70" ry="26" fill="#f0c67c"/>
+    <path d="M205 700 q30 -14 60 0" stroke="#c98b3b" stroke-width="4" fill="none" stroke-linecap="round"/>
+  </g>
+  <g opacity="0.9" fill="#99f6e4">
+    <path d="M1330 706 q40 -26 96 0 q-40 26 -96 0 Z"/>
+    <path d="M1426 706 l26 -16 v32 Z"/>
+    <circle cx="1352" cy="704" r="5" fill="#0f766e"/>
+  </g>
+</svg>

@@ -1,6 +1,30 @@
 # Project progress
 
-_Last updated: 9 July 2026 (fast-path go-live decision)._
+_Last updated: 9 July 2026 (visual design refresh)._
+
+## Visual design refresh (9 July 2026)
+
+The site was rebuilt visually — **no copy or tone changed**, palette kept — to
+move it from "clean but dry" to warm and engaging, following charity-site best
+practice. All server-rendered, near-zero client JS, reduced-motion-safe, and
+verified on desktop and mobile (measured: no horizontal overflow).
+
+- **New design system:** icon set (`src/components/Icons.tsx`), curved section
+  dividers + steam motif (`Decor.tsx`), CSS texture/warmth utilities
+  (dot-grid, warm glow, card-lift, hand-drawn underline swoosh) in `globals.css`.
+- **Illustrated placeholder art** (`public/images/site/*.svg`) in four picture
+  spots — hero, help, how-to-help, our-story — so the site looks finished with
+  zero photography. Every spot is wired through **one file**, `src/lib/images.ts`
+  (`Photo` component renders it). Real photos are a two-line swap.
+- **Homepage:** layered hero with artwork, wave divider, doors-with-icons,
+  "Small charity. Big pan." impact band (facts already on-site, none invented),
+  closing "We've saved you a seat" band.
+- **Interior pages:** shared warm `PageHeader` (tinted, textured, curved),
+  icon-led cards, richer `PostCard` (hover, category chip, illustrated
+  no-image fallback), post pages get a closing CTA.
+- **How to add real photos:** `docs/IMAGES.md` (dignity rule + two-minute swap).
+
+Build / lint / typecheck / 33 tests all green.
 
 ## Where we are
 

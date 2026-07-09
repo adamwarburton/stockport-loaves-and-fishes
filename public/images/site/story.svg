@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+  <!-- ON-BRAND PLACEHOLDER: the boot-of-a-car beginning (CLAUDE.md §5).
+       Replace via images.story.src in src/lib/images.ts (docs/IMAGES.md). -->
+  <defs>
+    <linearGradient id="sSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#134e4a"/>
+      <stop offset="1" stop-color="#0f766e"/>
+    </linearGradient>
+    <radialGradient id="sLamp" cx="0.5" cy="0.3" r="0.5">
+      <stop offset="0" stop-color="#fcd34d" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#fcd34d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="1200" fill="url(#sSky)"/>
+  <rect width="1200" height="1200" fill="url(#sLamp)"/>
+
+  <!-- ground -->
+  <rect x="0" y="900" width="1200" height="300" fill="#0b3d3a"/>
+
+  <!-- car (rear three-quarter, boot open) -->
+  <g>
+    <!-- body -->
+    <path d="M250 760 q40 -150 210 -160 l360 0 q150 6 150 150 l0 130 -870 0 Z" fill="#115e59"/>
+    <!-- open boot lid -->
+    <path d="M470 600 q160 -14 330 6 l6 -70 q -170 -18 -330 -6 Z" fill="#0d9488"/>
+    <!-- rear window glow -->
+    <path d="M500 610 q140 -12 280 4 l6 90 -292 0 Z" fill="#fde68a" opacity="0.85"/>
+    <!-- bumper -->
+    <rect x="250" y="838" width="870" height="42" rx="14" fill="#0b3d3a"/>
+    <!-- wheels -->
+    <circle cx="410" cy="900" r="70" fill="#052826"/>
+    <circle cx="410" cy="900" r="34" fill="#0d9488"/>
+    <circle cx="960" cy="900" r="70" fill="#052826"/>
+    <circle cx="960" cy="900" r="34" fill="#0d9488"/>
+  </g>
+
+  <!-- pots of food in the boot -->
+  <g>
+    <path d="M520 720 h120 l-12 70 a52 26 0 0 1 -96 0 Z" fill="#0b3d3a"/>
+    <ellipse cx="580" cy="720" rx="60" ry="16" fill="#f59e0b"/>
+    <ellipse cx="580" cy="716" rx="60" ry="14" fill="#fbbf24"/>
+    <path d="M660 730 h110 l-11 62 a48 24 0 0 1 -88 0 Z" fill="#0b3d3a"/>
+    <ellipse cx="715" cy="730" rx="55" ry="15" fill="#f59e0b"/>
+    <ellipse cx="715" cy="726" rx="55" ry="13" fill="#fbbf24"/>
+  </g>
+
+  <!-- steam -->
+  <g stroke="#e7fbf6" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.5">
+    <path d="M580 690 q -24 -44 0 -88 q 24 -44 0 -88"/>
+    <path d="M715 700 q -22 -40 0 -80 q 22 -40 0 -80"/>
+  </g>
+
+  <!-- a couple of stars for the evening -->
+  <g fill="#fde68a" opacity="0.8">
+    <circle cx="180" cy="220" r="5"/><circle cx="1010" cy="180" r="6"/><circle cx="300" cy="360" r="4"/><circle cx="920" cy="330" r="4"/>
+  </g>
+</svg>
