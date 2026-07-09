@@ -76,6 +76,14 @@ variables → Actions → New repository secret.** Add all three:
 - [ ] 2.2 `META_PAGE_ID` — the Page ID from 1.6.
 - [ ] 2.3 `META_IG_USER_ID` — the Instagram user ID from 1.6.
 
+> ⚠️ **`META_ACCESS_TOKEN` must be the System User token from step 1.5** — the
+> one from **Business settings → Users → System users → Generate token**, with
+> the five permissions ticked and the system user set as a **full-control admin
+> of the Page**. Do **not** paste the "User token" shown in the Graph API
+> Explorer — it's a personal token that can't publish to the Page (and expires
+> in an hour). The code turns this token into the Page token it needs at run
+> time, so this is the only token you store.
+
 The `DRY_RUN` repository variable is already set to `true`, so nothing can
 post yet. Good.
 

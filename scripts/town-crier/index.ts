@@ -13,7 +13,7 @@
 import { CHANNELS, getAllPosts, isVisible, type Channel, type Post } from "../../src/lib/content";
 import { postUrl, site } from "../../src/lib/site";
 import { facebookFeedMessage, facebookPhotoCaption, instagramCaption } from "./captions";
-import { postToFacebook } from "./facebook";
+import { getPageAccessToken, postToFacebook } from "./facebook";
 import { createGraphClient, GraphError, type GraphClient } from "./graph";
 import { upsertIssue } from "./github";
 import { postToInstagram } from "./instagram";
@@ -142,6 +142,37 @@ async function main(): Promise<void> {
     note("🔑 No META_ACCESS_TOKEN configured — skipping token health check (fine in dry run).");
   }
 
+  // Posting to a Page needs a Page access token, derived from our token once
+  // per run (see getPageAccessToken). If we can't get one, nothing can post —
+  // treat it exactly like a dead token: raise the alarm, exit.
+  let publishGraph = graph;
+  if (!dryRun && graph) {
+    try {
+      publishGraph = createGraphClient(await getPageAccessToken(graph, pageId!));
+      note("🔑 Page access token: OK.");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(`❌ Couldn't get a Page access token: ${message}`);
+      if (ghToken && repo) {
+        await upsertIssue({
+          repo,
+          token: ghToken,
+          title: "⚠️ Social posting is broken — token needs attention",
+          body:
+            `The town crier reached Facebook, but its token can't publish to the Page.\n\n` +
+            `**Nothing is wrong with the website.**\n\n**Usual cause:** the value in ` +
+            `META_ACCESS_TOKEN must be the **System User** token (never-expiring, from Meta ` +
+            `Business settings → Users → System users), and that system user must be a ` +
+            `**full-control admin of the Page**. A Graph API Explorer "User token" will not ` +
+            `work. Fix it in "Fixing a dead token" — [docs/RUNBOOK.md](../blob/main/docs/RUNBOOK.md) §10.\n\n` +
+            `Error (sanitised): ${message}`,
+          label: "token-needs-attention",
+        });
+      }
+      process.exit(1);
+    }
+  }
+
   // 3 + 5–7. Per post, per channel; failures collected, never cascading.
   const failures: Failure[] = [];
   let posted = 0;
@@ -188,13 +219,13 @@ async function main(): Promise<void> {
       }
 
       try {
-        // Live mode guarantees graph + pageId. igUserId is guaranteed whenever
-        // the channel is instagram, because instagram is only ever enabled
-        // (and so only ever in the plan) when META_IG_USER_ID is configured.
+        // Live mode guarantees publishGraph (the Page-token client) + pageId.
+        // igUserId is guaranteed whenever the channel is instagram, because
+        // instagram is only ever in the plan when META_IG_USER_ID is set.
         const id =
           channel === "facebook"
-            ? await postToFacebook(graph!, pageId!, post, postUrl(post.slug), image)
-            : await postToInstagram(graph!, igUserId!, post, postUrl(post.slug), image!);
+            ? await postToFacebook(publishGraph!, pageId!, post, postUrl(post.slug), image)
+            : await postToInstagram(publishGraph!, igUserId!, post, postUrl(post.slug), image!);
         recordResult(state, post.slug, channel, { id, postedAt: new Date().toISOString() });
         saveState(state); // written immediately — a crash later can't repost this
         posted += 1;
