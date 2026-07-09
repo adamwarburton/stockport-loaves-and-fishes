@@ -1,16 +1,32 @@
 # Project progress
 
-_Last updated: 6 July 2026 (Phase 4 prep session)._
+_Last updated: 9 July 2026 (fast-path go-live decision)._
 
 ## Where we are
 
-| Phase                     | Status                                                  |
-| ------------------------- | ------------------------------------------------------- |
-| 0 — Bootstrap             | ✅ Done                                                 |
-| 1 — Site + content engine | ✅ Done — copy review still open                        |
-| 2 — CMS                   | ✅ Done — acceptance test passed                        |
-| 3 — Town crier (dry run)  | ✅ Done — dry run verified in Actions                   |
-| 4 — Live test → launch    | 🟡 Prepared — awaiting META_SETUP.md, then LIVE_TEST.md |
+| Phase                     | Status                                             |
+| ------------------------- | -------------------------------------------------- |
+| 0 — Bootstrap             | ✅ Done                                            |
+| 1 — Site + content engine | ✅ Done — copy review still open                   |
+| 2 — CMS                   | ✅ Done — acceptance test passed                   |
+| 3 — Town crier (dry run)  | ✅ Done — dry run verified in Actions              |
+| 4 — Live test → launch    | 🟡 Fast path chosen — human does `docs/GO_LIVE.md` |
+
+## Fast-path go-live decision (9 July 2026)
+
+The project lead chose to **skip the throwaway-account test** (a deliberate
+waiver of the Prime Directive 5 rehearsal, defensible because the new page
+launches with no followers) and go straight to the real accounts.
+`docs/GO_LIVE.md` is the condensed one-page guide for that. Two safety steps
+are retained and marked mandatory in it:
+
+- a **dry run against the real accounts** before flipping `DRY_RUN`, and
+- a **content tidy** first — a live run today would post the leftover "Test"
+  post ("Test test test") and self-described test posts to the real audience;
+  the dry run surfaces exactly this.
+
+`docs/META_SETUP.md` (full walkthrough) and `docs/LIVE_TEST.md` (throwaway
+rehearsal) remain in the repo as the thorough path if ever wanted.
 
 ## Phase 4 — prepared (everything that doesn't need the Meta secrets)
 
@@ -32,15 +48,17 @@ _Last updated: 6 July 2026 (Phase 4 prep session)._
   (§11), "token needs attention" (§10), "how to skip social for one post"
   (§8), "who to call" (§9, names to be filled at handover).
 
-### Phase 4 — what remains (needs the human + secrets)
+### Phase 4 — what remains (fast path, needs the human + secrets)
 
-1. Complete `docs/META_SETUP.md` with **throwaway** assets (planned:
-   7 July 2026).
-2. Run `docs/LIVE_TEST.md` end to end — the developer/assistant can drive
-   the button-pressing and verification on request once secrets exist.
-3. Swap secrets to the real Page/IG, reset the ledger deliberately.
-4. RUNBOOK §8 status paragraph + §9 names updated at launch.
-5. **Launch = the human sets DRY_RUN to false.** Nothing else flips it.
+1. `docs/GO_LIVE.md` step 1–2: create the real Meta assets, add the three
+   GitHub secrets.
+2. `docs/GO_LIVE.md` step 3: tidy the seed/test content (or ask the
+   assistant to).
+3. `docs/GO_LIVE.md` step 4: dry run against the real accounts, confirm the
+   summary.
+4. `docs/GO_LIVE.md` step 5: **human sets DRY_RUN to false** — the launch.
+5. Post-launch: add the Facebook link to /contact, update RUNBOOK §8 status
+   line, tick FACTS_TO_CONFIRM.
 
 ## Phase 3 — what was done
 
