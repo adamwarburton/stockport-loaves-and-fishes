@@ -51,6 +51,29 @@ describe("planWork (the diff)", () => {
     expect(planWork([websiteOnly], { posts: {} })).toHaveLength(0);
   });
 
+  it("plans only Facebook when Instagram isn't enabled", () => {
+    const plan = planWork([POST], { posts: {} }, ["facebook"]);
+    expect(plan).toHaveLength(1);
+    expect(plan[0].channels).toEqual(["facebook"]);
+  });
+
+  it("gives an Instagram-only post no work while Instagram is off", () => {
+    const igOnly = makePost("2026-07-01-ig.md", "social:\n  channels: [instagram]");
+    expect(planWork([igOnly], { posts: {} }, ["facebook"])).toHaveLength(0);
+  });
+
+  it("picks Instagram back up once it's enabled (nothing was recorded as done)", () => {
+    // Facebook already went out while Instagram was off; enabling IG later
+    // should queue the Instagram post, because the off state was never
+    // written to the ledger.
+    const state: State = {
+      posts: { photo: { facebook: { id: "1", postedAt: "2026-07-01T10:00:00Z" } } },
+    };
+    const plan = planWork([POST_WITH_IMAGE], state, ["facebook", "instagram"]);
+    expect(plan).toHaveLength(1);
+    expect(plan[0].channels).toEqual(["instagram"]);
+  });
+
   it("leaves a no-image Instagram skip alone while the post still has no image", () => {
     const state: State = {
       posts: {

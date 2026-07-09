@@ -153,11 +153,12 @@ the post form (the social text box and the channel ticks).
 - Posts without a photo are shared to Facebook only — Instagram requires a
   photo, so the town crier politely skips it and says so in its notes.
 - Shares go out within the hour after a post goes live, not instantly.
-- **Status right now:** the town crier is built and rehearsing (a safety
-  switch called DRY_RUN is on, so it describes what it _would_ post without
-  posting). Until the switch is flipped after end-to-end testing, posts
-  publish to the website only, whatever the ticks say. This paragraph will be
-  updated at launch.
+- **Status right now:** **live on Facebook.** New published posts are shared
+  to the charity's Facebook page automatically. **Instagram is switched off
+  for now** — the charity's Instagram account isn't set up yet, so ticking
+  Instagram on a post simply does nothing until it is. When the account
+  exists, the tech contact adds one setting (`META_IG_USER_ID`) and Instagram
+  starts working for new posts — no other change needed.
 - When something breaks (e.g. the connection to Facebook expires), the system
   raises its own alarm — an issue appears in the project's GitHub issue list
   and the tech contact deals with it using §10 and §11 below.

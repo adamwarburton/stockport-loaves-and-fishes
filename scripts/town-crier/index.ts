@@ -10,7 +10,7 @@
  *  - One channel failing never blocks other channels or posts.
  *  - Every failure ends up in a GitHub issue a non-developer could act on.
  */
-import { getAllPosts, isVisible, type Channel, type Post } from "../../src/lib/content";
+import { CHANNELS, getAllPosts, isVisible, type Channel, type Post } from "../../src/lib/content";
 import { postUrl, site } from "../../src/lib/site";
 import { facebookFeedMessage, facebookPhotoCaption, instagramCaption } from "./captions";
 import { postToFacebook } from "./facebook";
@@ -75,27 +75,38 @@ async function main(): Promise<void> {
     note("🏜 DRY RUN — nothing will be posted and the ledger will not change.");
     note('   (To go live, a human sets the repository variable DRY_RUN to "false".)');
   } else {
-    const missing = [
-      !token && "META_ACCESS_TOKEN",
-      !pageId && "META_PAGE_ID",
-      !igUserId && "META_IG_USER_ID",
-    ].filter(Boolean);
+    // Facebook is the only required channel. META_IG_USER_ID is optional:
+    // leave it unset and the crier runs Facebook-only without complaint.
+    const missing = [!token && "META_ACCESS_TOKEN", !pageId && "META_PAGE_ID"].filter(Boolean);
     if (missing.length > 0) {
       console.error(
         `❌ DRY_RUN is off but these GitHub Actions secrets are missing: ${missing.join(", ")}.\n` +
-          `   Nothing was posted. Add them (docs/META_SETUP.md, step 7) or set the\n` +
+          `   Nothing was posted. Add them (docs/GO_LIVE.md) or set the\n` +
           `   repository variable DRY_RUN back to "true".`,
       );
       process.exit(1);
     }
   }
 
-  // 1–2. Eligible posts, diffed against the ledger.
+  // Which channels are actually switched on. A channel counts as enabled once
+  // its account id is configured — so Instagram stays off until META_IG_USER_ID
+  // exists, and turning it on later needs no code change. With nothing
+  // configured at all (a local dry run) we preview every channel so captions
+  // can still be checked.
+  const configured = [pageId ? "facebook" : null, igUserId ? "instagram" : null].filter(
+    Boolean,
+  ) as Channel[];
+  const enabledChannels: Channel[] = configured.length > 0 ? configured : [...CHANNELS];
+  if (!enabledChannels.includes("instagram")) {
+    note("📸 Instagram is off (no META_IG_USER_ID set) — Facebook only for now.");
+  }
+
+  // 1–2. Eligible posts, diffed against the ledger and the enabled channels.
   const eligible = getAllPosts().filter(
     (post) => isVisible(post) && post.social.channels.length > 0,
   );
   const state = loadState();
-  const plan = planWork(eligible, state);
+  const plan = planWork(eligible, state, enabledChannels);
   note(`📋 ${eligible.length} eligible post(s); ${plan.length} with work to do.`);
 
   // 4 (ordered before per-post work): token health — loud within the hour.
@@ -177,7 +188,9 @@ async function main(): Promise<void> {
       }
 
       try {
-        // graph, pageId, igUserId are all present here: enforced at startup.
+        // Live mode guarantees graph + pageId. igUserId is guaranteed whenever
+        // the channel is instagram, because instagram is only ever enabled
+        // (and so only ever in the plan) when META_IG_USER_ID is configured.
         const id =
           channel === "facebook"
             ? await postToFacebook(graph!, pageId!, post, postUrl(post.slug), image)

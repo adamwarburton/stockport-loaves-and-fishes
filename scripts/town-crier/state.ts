@@ -6,7 +6,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import type { Channel, Post } from "../../src/lib/content";
+import { CHANNELS, type Channel, type Post } from "../../src/lib/content";
 
 export interface PostedResult {
   id: string;
@@ -59,12 +59,25 @@ export interface WorkItem {
   channels: Channel[];
 }
 
-/** Diff the eligible posts against the ledger → what still needs doing. */
-export function planWork(posts: Post[], state: State): WorkItem[] {
+/**
+ * Diff the eligible posts against the ledger → what still needs doing.
+ *
+ * `enabledChannels` is the set of channels that are actually switched on right
+ * now (e.g. Facebook only, until Instagram is configured). A post's request
+ * for a channel that isn't enabled is simply ignored — not an error, and not
+ * recorded, so it posts automatically if that channel is turned on later.
+ */
+export function planWork(
+  posts: Post[],
+  state: State,
+  enabledChannels: readonly Channel[] = CHANNELS,
+): WorkItem[] {
   const work: WorkItem[] = [];
   for (const post of posts) {
     const done = state.posts[post.slug] ?? {};
-    const channels = post.social.channels.filter((channel) => !channelIsDone(post, done[channel]));
+    const channels = post.social.channels.filter(
+      (channel) => enabledChannels.includes(channel) && !channelIsDone(post, done[channel]),
+    );
     if (channels.length > 0) work.push({ post, channels });
   }
   return work;

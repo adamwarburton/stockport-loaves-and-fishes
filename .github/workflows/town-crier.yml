@@ -51,6 +51,8 @@ jobs:
           DRY_RUN: ${{ (github.event_name == 'workflow_dispatch' && inputs.override_dry_run) && 'false' || (vars.DRY_RUN == 'false' && 'false' || 'true') }}
           META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
           META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
+          # Optional. Leave this secret unset to run Facebook-only; Instagram
+          # switches on by itself once the secret exists (no code change needed).
           META_IG_USER_ID: ${{ secrets.META_IG_USER_ID }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx tsx scripts/town-crier/index.ts
