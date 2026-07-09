@@ -108,11 +108,15 @@ This is the rehearsal that replaces the throwaway page. It posts **nothing**.
 
 - [ ] 4.1 GitHub → **Actions → Town crier → Run workflow**, leave
       **override_dry_run unticked**, run it.
-- [ ] 4.2 Read the run's summary. Confirm: - **"🔑 Token health check: OK"** — your token and secrets work. - The **"would post"** lines show only the content you actually want
-      out, with captions that read well. (If you still see "Test test
-      test", go back to step 3.) - No warning that a photo isn't a JPEG (Instagram only accepts JPEG).
-- [ ] 4.3 If anything looks wrong, fix it and re-run 4.1. Only move on when
-      the summary is exactly what you want to appear on the real accounts.
+- [ ] 4.2 In the run's summary, confirm **"🔑 Token health check: OK"** —
+      that proves your token and the three secrets work.
+- [ ] 4.3 Confirm the **"would post"** lines show only content you actually
+      want out, with captions that read well. If you still see "Test test
+      test", go back to step 3.
+- [ ] 4.4 Confirm there's **no warning that a photo isn't a JPEG** (Instagram
+      only accepts JPEG).
+- [ ] 4.5 If anything looks wrong, fix it and re-run 4.1. Only move on when
+      the summary is exactly what you want on the real accounts.
 
 ## Step 5 — Launch (your decision, your hand on the switch)
 
