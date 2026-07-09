@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Markdown } from "@/components/Markdown";
 import { PageHeader } from "@/components/PageHeader";
-import { IconArrowRight, IconMail, IconPhone, IconPin } from "@/components/Icons";
+import { IconArrowRight, IconFacebook, IconMail, IconPhone, IconPin } from "@/components/Icons";
 import { getPage } from "@/lib/content";
 import { site } from "@/lib/site";
 
@@ -102,11 +102,30 @@ export default async function ContactPage() {
               we&rsquo;d hate for a cheque to go on its own little adventure.
             </p>
           </div>
+          {/* The new Facebook page. The two legacy pages are never linked. */}
+          <div className="rounded-2xl border-2 border-brand-100 bg-white p-6 shadow-sm">
+            <h2 className="flex items-center gap-2 text-lg font-bold text-brand-900">
+              <span className="flex size-9 items-center justify-center rounded-full bg-brand-50 text-brand-700">
+                <IconFacebook className="size-5" />
+              </span>
+              Facebook
+            </h2>
+            <p className="mt-3">
+              <a
+                href={site.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-lg font-bold text-brand-800 underline underline-offset-4"
+              >
+                Follow us on Facebook
+                <IconArrowRight className="size-4" />
+              </a>
+            </p>
+            <p className="mt-2 text-ink/80">
+              This week&rsquo;s needs, thank-yous, and the odd photo from a Sunday night.
+            </p>
+          </div>
         </div>
-
-        {/* Facebook link goes here once the charity's new page exists —
-            logged in docs/FACTS_TO_CONFIRM.md. The legacy pages are
-            deliberately never linked. */}
       </div>
     </>
   );

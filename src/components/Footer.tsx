@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { IconBowl, IconClock, IconMail, IconPhone, IconPin } from "@/components/Icons";
+import {
+  IconBowl,
+  IconClock,
+  IconFacebook,
+  IconMail,
+  IconPhone,
+  IconPin,
+} from "@/components/Icons";
 import { WaveTop } from "@/components/Decor";
 import { site } from "@/lib/site";
 
@@ -56,6 +63,17 @@ export function Footer() {
                 >
                   <IconPhone className="size-4.5 shrink-0 text-accent-300" />
                   {site.phone}
+                </a>
+              </li>
+              <li>
+                <a
+                  className="flex items-center gap-2 underline-offset-4 hover:text-white hover:underline"
+                  href={site.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <IconFacebook className="size-4.5 shrink-0 text-accent-300" />
+                  Facebook
                 </a>
               </li>
               <li>

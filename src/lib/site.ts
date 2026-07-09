@@ -19,6 +19,11 @@ export const site = {
   phone: "07429 567402", // [CONFIRM]
   phoneHref: "tel:+447429567402",
 
+  // The charity's Facebook page — the new page the town crier posts to. The
+  // two legacy pages are deliberately never linked. Swap this for a vanity URL
+  // (facebook.com/…) here, once, if the page gets a username.
+  facebook: "https://www.facebook.com/profile.php?id=61591566191491",
+
   venue: {
     name: "Stockport Baptist Church", // [CONFIRM]
     street: "Thomson Street",

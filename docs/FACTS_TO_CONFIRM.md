@@ -27,7 +27,7 @@ it here.
 ## Placeholders that need a decision, not just confirmation
 
 - [ ] **Donation platform** — not yet chosen. /how-to-help shows a clearly-marked "Donate online — coming soon" placeholder with an email fallback. When the platform is chosen, replace the placeholder with a link (one change in `src/app/how-to-help/page.tsx`).
-- [ ] **Facebook page link** — the new Facebook page doesn't exist yet (created in Phase 3/4, per docs/META_SETUP.md when written). /contact has a code comment marking where the link goes. The two legacy pages are never linked.
+- [x] **Facebook page link** — done. The new page is live at https://www.facebook.com/profile.php?id=61591566191491, stored in `src/lib/site.ts` (`site.facebook`) and linked from /contact and the footer. The town crier posts to it. The two legacy pages are never linked. _If the page gets a vanity username, swap the URL in `site.ts` (one place)._
 - [ ] **"What we need right now" list** (`content/settings/needs.md`) — currently a plausible example list written by the developer. The volunteers should replace it with this week's real list as their first CMS edit.
 - [ ] **Seed news posts** (`content/posts/`) — the five posts are written as real, publishable copy but describe themselves as test posts where relevant. Review before launch: keep, edit, or replace them.
 - [ ] **Placeholder images** — the two post images are illustrations (a bowl, a pot). Real photos come later, from the charity, with consent, never showing identifiable people experiencing homelessness.
