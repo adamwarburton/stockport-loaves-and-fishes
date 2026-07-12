@@ -205,6 +205,22 @@ attention"**, the robot's key to Facebook/Instagram has stopped working
    and check it goes green. It will confirm "Token health check: OK".
 5. Close the issue. Total time: about ten minutes.
 
+**If the error says "API access blocked" (not "expired" or "invalid"):**
+regenerating the token won't help — Meta has blocked the whole **app**, not
+the token. This almost always means there's an outstanding **required action**
+on the app. Go to **developers.facebook.com → your apps → SLF Town Crier** and:
+
+1. Open **"Required actions"** (top nav) and the dashboard banners — complete
+   anything Meta is asking for (commonly **business verification**, accepting
+   updated platform terms, or the data-handling / data-use questionnaire).
+2. Check **App settings → Basic** for the app's status and whether business
+   verification is pending or required.
+3. To see Meta's exact reason, run `GET /me` in the **Graph API Explorer**
+   (with the SLF Town Crier app selected) — the full error includes a
+   "Refer to…" link naming the cause.
+4. Once resolved, no re-trigger is needed — the hourly run goes green on its
+   own. Then close the issue.
+
 ## 11. "A post didn't appear on Facebook/Instagram" (for the tech contact)
 
 First: the crier retries every hour by itself, and a post can never go out

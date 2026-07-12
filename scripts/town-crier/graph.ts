@@ -63,16 +63,33 @@ export function createGraphClient(token: string): GraphClient {
 
     const response = await fetch(url, init);
     const body = (await response.json().catch(() => ({}))) as {
-      error?: { message?: string; type?: string; code?: number };
+      error?: {
+        message?: string;
+        type?: string;
+        code?: number;
+        error_subcode?: number;
+        error_user_title?: string;
+        error_user_msg?: string;
+        fbtrace_id?: string;
+      };
       [key: string]: unknown;
     };
 
     if (!response.ok || body.error) {
-      const graphMessage = body.error?.message ?? `HTTP ${response.status}`;
-      throw new GraphError(sanitise(`${path}: ${graphMessage}`, token), {
+      const err = body.error;
+      // Surface Meta's own identifiers so a terse message like "API access
+      // blocked" is actually diagnosable. These are codes / IDs / Meta's own
+      // user-facing text — never secrets — and still pass through sanitise().
+      const parts = [err?.message ?? `HTTP ${response.status}`];
+      if (err?.code != null) {
+        parts.push(`code ${err.code}${err.error_subcode != null ? `/${err.error_subcode}` : ""}`);
+      }
+      if (err?.error_user_msg) parts.push(err.error_user_msg);
+      if (err?.fbtrace_id) parts.push(`trace ${err.fbtrace_id}`);
+      throw new GraphError(sanitise(`${path}: ${parts.join(" · ")}`, token), {
         status: response.status,
-        graphType: body.error?.type,
-        graphCode: body.error?.code,
+        graphType: err?.type,
+        graphCode: err?.code,
       });
     }
     return body;
