@@ -11,9 +11,14 @@ on:
     branches: [main]
     paths: ["content/posts/**"]
   schedule:
-    # Hourly, off-peak minute. GitHub cron is best-effort; fine for us —
-    # this is also the retry loop for deferred/failed posts.
-    - cron: "17 * * * *"
+    # Twice a day, ~10am and ~4pm UK time. GitHub cron runs in UTC and can't do
+    # timezones, so these are 09:00 and 15:00 UTC — spot on during British Summer
+    # Time; in winter (GMT) they land an hour earlier (9am/3pm), which is fine.
+    # This is the retry loop and the pickup for scheduled posts; posts published
+    # through the CMS still go out promptly via the push trigger above.
+    # GitHub cron is best-effort and can run a little late — also fine here.
+    - cron: "0 9 * * *"
+    - cron: "0 15 * * *"
   workflow_dispatch:
     inputs:
       override_dry_run:

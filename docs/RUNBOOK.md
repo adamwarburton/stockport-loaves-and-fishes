@@ -152,7 +152,9 @@ the post form (the social text box and the channel ticks).
 
 - Posts without a photo are shared to Facebook only — Instagram requires a
   photo, so the town crier politely skips it and says so in its notes.
-- Shares go out within the hour after a post goes live, not instantly.
+- Posts published through the CMS are shared shortly after you publish them.
+  Scheduled (future-dated) posts, and any retries after a hiccup, go out at the
+  next posting window — the robot checks twice a day, around 10am and 4pm.
 - **Status right now:** **live on Facebook.** New published posts are shared
   to the charity's Facebook page automatically. **Instagram is switched off
   for now** — the charity's Instagram account isn't set up yet, so ticking
@@ -223,8 +225,9 @@ on the app. Go to **developers.facebook.com → your apps → SLF Town Crier** a
 
 ## 11. "A post didn't appear on Facebook/Instagram" (for the tech contact)
 
-First: the crier retries every hour by itself, and a post can never go out
-twice — so the safe default is to wait an hour. If it's persistent, there'll
+First: the crier retries at its next scheduled run (twice a day, around 10am
+and 4pm), and a post can never go out twice — so the safe default is to wait
+for the next window. If it's persistent, there'll
 be an open issue labelled `cross-post-failure` with the sanitised error per
 post and channel. The usual suspects:
 
